@@ -7,6 +7,7 @@
 </head>
 <body>
     <button id="getText">Get text</button>
+    <button id='getUsers'>Get Users</button>
     <div id="output"></div>
     <script>
         document.getElementById('getText').addEventListener('click',()=>{
@@ -20,6 +21,27 @@
             })
             .catch((err)=>{
                 console.log(err);
+            })
+        })
+
+        document.getElementById('getUsers').addEventListener('click',()=>{
+            fetch('users.json')
+            .then((res)=>{
+                return res.json();
+            })
+            .then((data)=>{
+                //console.log(data);
+                let output=`<h2>Users</h2>`;
+                for(var i=0;i<data.length;i++){
+                    output+=`
+                        <ul>
+                            <li>ID: ${data[i].id}</li>
+                            <li>Name: ${data[i].name}</li>
+                            <li>Email: ${data[i].email}</li>
+                        </ul>
+                    `;
+                }
+                document.getElementById('output').innerHTML=output;
             })
         })
     </script>
