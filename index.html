@@ -4,12 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fetch API</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
-    <button id="getText">Get text</button>
-    <button id="getUsers">Get Users(JSON)</button>
-    <button id="getPosts">Get API Data </button>
-    <div id="output"></div>
+    <div class="container">
+        <h1 class="display-4 mb-4">Fetch API Sandbox</h1>
+        <div class="d-flex">
+            <button class="btn btn-primary mr-4" id="getText">Get text</button>
+            <button class="btn btn-success mr-4" id="getUsers">Get Users(JSON)</button>
+            <button class="btn btn-warning mr-4" id="getPosts">Get API Data </button>
+        </div>
+        <hr>
+        <div id="output"></div>
+        <form id="addPost">
+            <div class="form-group">
+                <input class="form-control" type="text" id="title" placeholder="Title">
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" id="body" placeholder="Body"></textarea>
+            </div>
+            <div>
+                <input class="btn btn-secondary" type="submit" value="submit">
+            </div>
+            
+        </form>
+    </div>
+    
+    
     <script>
         document.getElementById('getText').addEventListener('click',()=>{
             // fetch returns a promise
@@ -65,6 +87,27 @@
             })
         })
     
+        document.getElementById('addPost').addEventListener('submit',(e)=>{
+            // this line is wriiten to actually prevent it from submitting to the file
+            e.preventDefault();
+
+            let title=document.getElementById('title').value;
+            let body=document.getElementById('body').value;
+            fetch('https://jsonplaceholder.typicode.com/posts',{
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-type':'application/json'
+                },
+                body:JSON.stringify({title: title,body:body})
+            })
+            .then((res)=>{
+                return res.json();
+            })
+            .then((data)=>{
+                console.log(data);
+            })
+        })
     </script>
 </body>
 </html>
